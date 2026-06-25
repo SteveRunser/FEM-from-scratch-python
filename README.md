@@ -1,7 +1,7 @@
 # Finite Element Method from Scratch
 
 
-What better way to learn how Finite Element Solvers work then implement them from scratch! This repo contains different implementations of the Finite Element Method (FEM). In every examples presented we will use first order Lagrange elements for the sake of simplicity. 
+What better way to learn how Finite Element Solvers work than implement them from scratch! This repo contains different implementations of the Finite Element Method (FEM). In every examples presented we will use first order Lagrange elements for the sake of simplicity. 
 
 ## Garlekin Method on the 2D Laplace Equation
 
