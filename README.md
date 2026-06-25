@@ -20,7 +20,11 @@ $$
 \int_{\Omega} \nabla^2 u v \; d\Omega = 0
 $$
 
-where $v$ is a test function with the property $v = 0$ on $\partial \Omega$.
+where the test function satisfies
+
+$$
+v = 0 \quad \text{on } \partial\Omega.
+$$
 
 After applying Green's first identity, we get:
 
@@ -32,7 +36,11 @@ $$
 \int_{\Omega} \nabla u \cdot \nabla v \; d\Omega = 0
 $$
 
-The boundary conditions is enforced by setting $u = g(x,y)$ on $\partial \Omega$.
+The boundary conditions is enforced by setting
+
+$$
+u = g(x,y) \quad \text{on } \partial\Omega.
+$$
 
 To interpolate $u$ in our triangular elements, we will use a first order Lagrange basis function. The basis functions in the element are given by:
 
@@ -44,23 +52,42 @@ $$
 \end{aligned}
 $$
 
-Where $u$, $v$, and $w=1-u-v$ are the barycentric coordinates of a point in the element. We then use the Garlekin method to obtain the discrete equations. The steps are as follows:
+Where the barycentric coordinates of a point in the element satisfy
 
-We interoduce the finite element approximation $u_h(x)=\sum_j U_j\,\phi_j(x)$ and choose Galerkin test functions $v=\phi_i$ Substituting and exchanging sum and integral gives
+$$
+w = 1 - u - v.
+$$
+
+We then use the Garlekin method to obtain the discrete equations. The steps are as follows:
+
+We introduce the finite element approximation
+
+$$
+u_h(x) = \sum_j U_j\,\phi_j(x)
+$$
+
+and choose Galerkin test functions
+
+$$
+v = \phi_i.
+$$
+
+Substituting and exchanging sum and integral gives
 $$
 \sum_j U_j\int_{\Omega} \nabla\phi_j\cdot\nabla\phi_i\,d\Omega = 0.
 $$
 
 We then define the stiffness matrix entries
+
 $$
-K_{ij}=\int_{\Omega} \nabla\phi_j\cdot\nabla\phi_i\,d\Omega,
+K_{ij} = \int_{\Omega} \nabla\phi_j\cdot\nabla\phi_i\,d\Omega.
 $$
-so the discrete equations are
+So the discrete equations are
 $$
 \sum_j K_{ij}U_j = 0\qquad\text{for all }i.
 $$
   
-We then enforce Dirichlet boundary values by splitting unknowns into interior ($I$) and boundary ($B$) nodes. Writing the system for interior test indices yields
+We then enforce Dirichlet boundary values by splitting unknowns into interior and boundary nodes. Writing the system for interior test indices yields
 $$
 \sum_{j\in I} K_{ij}U_j = -\sum_{j\in B} K_{ij}g_j,\qquad i\in I,
 $$
@@ -68,10 +95,23 @@ which is the reduced linear system
 $$
 K_{II}U_I = F_I,\quad F_I = -K_{IB}g_B,
 $$
-solved for the interior coefficients $U_I$ and then reconstructed with $U_B=g_B$.
+solved for the interior coefficients $U_I$ and then reconstructed with
+
+$$
+U_B = g_B.
+$$
 
 Element contribution (triangle mapping): with reference gradients
-$\nabla_{\xi}\widehat\phi$ and Jacobian $J=\partial x/\partial\xi$,
+
+$$
+\nabla_{\xi}\widehat\phi
+$$
+
+and Jacobian
+
+$$
+J = \partial x / \partial\xi,
+$$
 $$
 K^e_{mn}=\int_T\nabla\phi_m\cdot\nabla\phi_n\,d\Omega
 =\int_{\widehat T} (J^{-T}\nabla_{\xi}\widehat\phi_m)\cdot(J^{-T}\nabla_{\xi}\widehat\phi_n)\,|\det J|\,d\xi.
@@ -80,8 +120,7 @@ For linear P1 triangles the reference gradients are constant so this reduces to
 $$
 K^e_{mn}=\tfrac12\,|\det J|\;\big((J^{-T}\nabla_{\xi}\widehat\phi_m)\cdot(J^{-T}\nabla_{\xi}\widehat\phi_n)\big),
 $$
-which is the explicit form used in the implementation (area factor $1/2$ from
-the reference triangle times $|\det J|$ and the dot product of transformed gradients). Assembly, boundary enforcement and solution follow as described above.
+which is the explicit form used in the implementation, with the area factor $1/2$ from the reference triangle times $|\det J|$ and the dot product of transformed gradients. Assembly, boundary enforcement and solution follow as described above.
 
 Below are the computed FEM solution and the analytical solution displayed
 side-by-side for comparison.
@@ -175,7 +214,13 @@ $$
 S = \int_{t_0}^{t_f} L(q, \dot{q}) dt
 $$
 
-Where $L$ is the Lagrangian of the system, which is given by: $L = T- V$. Where $V$ is the potential energy of the system and $T$ is the kinetic energy of the system. $q$ is the generalized coordinate of the system and $\dot{q}$ is the generalized velocity of the system.
+The Lagrangian of the system is
+
+$$
+L = T - V.
+$$
+
+Here $V$ is the potential energy of the system, $T$ is the kinetic energy of the system, $q$ is the generalized coordinate of the system, and $\dot{q}$ is the generalized velocity of the system.
 
 The stationary action principle states that the true motion of the system is such that the action is stationary, i.e. the variation of the action is zero:
 
@@ -183,7 +228,7 @@ $$
 \delta S = 0
 $$
 
-By applying the calculus of variations to $\delta S$, the equations of motion for the system are derived. This leads to the Euler-Lagrange equations:
+By applying the calculus of variations to the action, the equations of motion for the system are derived. This leads to the Euler-Lagrange equations:
 
 $$
 \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{q}} \right) - \frac{\partial L}{\partial q} = 0
@@ -444,7 +489,11 @@ $$
 $$ 
 
 Where $\mathrm{S}$ is the second Piola-Kirchhoff stress tensor. And 
-$:$ is the double contraction operation: $A:B = A_{1,1} B_{1,1} + A_{1,2} B_{1,2} + ... + A_{3,3} B_{3,3}$.
+$:$ is the double contraction operation: 
+
+$$
+A:B = A_{1,1} B_{1,1} + A_{1,2} B_{1,2} + ... + A_{3,3} B_{3,3}
+$$
 
 
 The second Piola-Kirchhoff stress tensor is related to the Cauchy stress tensor ($\sigma$) by:
@@ -627,13 +676,18 @@ $$
 \int_{\Omega_{i}} \rho g^T \cdot u(x,t) \; d\Omega_{i}
 $$
 
-Where $\rho$ is the density of the material and $g$ is the acceleration due to gravity. Even though the gravity is constant throughout the element, 
-the density between the deformed and reference configuration might not be the same. Because of the conservation of mass, we have that:
+Where $\rho$ is the density of the material and $g$ is the acceleration due to gravity. Even though the gravity is constant throughout the element, the density between the deformed and reference configuration might not be the same. Because of the conservation of mass, we have that:
 $$
 \int_{\Omega_{i}} \rho g^T \cdot u(x,t) \; d\Omega_{i} = \int_{\Omega_{i,0}} \rho_0 g^T \cdot u(X,t) \; d\Omega_{i,0} 
 $$
 
-Since $u(X,t) = N(X) u(t)$, we can write the above equation as:
+Since the displacement field is interpolated as
+
+$$
+u(X,t) = N(X)\,u(t),
+$$
+
+we can write the above equation as:
 $$
 \int_{\Omega_{i,0}} \rho_0 g^T \cdot u(X,t) \; d\Omega_{i,0} = \rho_0 \underbrace{g^T}_{(1 \times 12)} \int_{\Omega_{i,0}} 
 \underbrace{
@@ -680,7 +734,15 @@ k_z & 0 & -k_x \\
 \end{bmatrix}
 $$ 
 
-$ k = n \times N$ and $\theta = \arccos(n \cdot N)$, where $n$ is the unit normal in the deformed configuration and $N$ is the unit normal in the reference configuration. The traction forces then need to be rescaled based on the difference in area between the deformed ($a$) and reference ($A$) configuration. The traction forces in the reference configuration are then given by:
+The rotation axis and angle are
+
+$$
+k = n \times N,
+\qquad
+eta = \arccos(n \cdot N),
+$$
+
+where $n$ is the unit normal in the deformed configuration and $N$ is the unit normal in the reference configuration. The traction forces then need to be rescaled based on the difference in area between the deformed and reference configuration. The traction forces in the reference configuration are then given by:
 $$
 t_0 = \frac{a}{A} R t
 $$
@@ -713,7 +775,11 @@ u_1(t) \\
 $$
 
 
-Here is how to integrate the shape functions over the surfaces of the triangles.Let the three points in 3D of a surface triangle be $P1 = (x1, y1, z1)$, $P2 = (x2, y2, z2)$, and $P3 = (x3, y3, z3)$. 
+Here is how to integrate the shape functions over the surfaces of the triangles. Let the three points in 3D of a surface triangle be
+
+$$
+P_1 = (x_1, y_1, z_1), \quad P_2 = (x_2, y_2, z_2), \quad P_3 = (x_3, y_3, z_3).
+$$
 ​
 A convenient way to parametrize the surface is using barycentric coordinates:
 
@@ -721,7 +787,11 @@ $$
 R(u,v) = P1 + u(P2 - P1) + v(P3 - P1)
 $$
 
-Where $u$ and $v$ are parameters that satisfy $0 \le u \le 1$, $0 \le v \le 1$, and $u + v \le 1$.
+Where $u$ and $v$ are parameters that satisfy
+
+$$
+0 \le u \le 1, \qquad 0 \le v \le 1, \qquad u + v \le 1.
+$$
 
 If we want to integrate a function $f(x,y,z)$ over the surface, we can substitute $x$, $y$, and $z$ using the parametric form:
 $$
@@ -732,15 +802,24 @@ z &= z1 + u(z2 - z1) + v(z3 - z1) \\
 \end{align}
 $$
 
-This rewrites the function $f(x,y,z)$ as $f(R(u,v))$.
+This rewrites the function as $$f(R(u,v))$$.
 
-The surface element $dA$ is determined by the cross product of the tangent vectors $\frac{\partial R}{\partial u}$ and $\frac{\partial R}{\partial v}$:
+The surface element is determined by the cross product of the tangent vectors
+
+$$
+\frac{\partial R}{\partial u}
+\quad\text{and}\quad
+\frac{\partial R}{\partial v}.
+$$
 $$
 dA = \left\| \frac{\partial R}{\partial u} \times \frac{\partial R}{\partial v} \right\| \; du dv
 $$
 Where
+
 $$
-\frac{\partial R}{\partial u} = P2 - P1 \quad \text{and} \quad \frac{\partial R}{\partial v} = P3 - P1
+\frac{\partial R}{\partial u} = P_2 - P_1,
+\qquad
+\frac{\partial R}{\partial v} = P_3 - P_1.
 $$
 
 The cross product of these two vectors gives the normal vector to the surface:
@@ -751,15 +830,13 @@ The differential area element is therefore given by:
 $$
 dA = \left\| N \right\| du dv
 $$
-The integral of the function $f(x,y,z)$ over the surface is then given by:
+The integral of the function over the surface is then given by:
 $$
 \int_{\partial \Omega_0} f(x,y,z) \; dA = \left\| N \right\| \int_{0}^{1} \int_{0}^{1-u} f(R(u,v))  \; du dv
 $$
 
 
-In our case, $R(u,v)$ maps the local face coordinates to the global reference coordinates and then the function $f$ is a shape function that maps the 
-global coordinates back to the local face coordinates. The integrand can therefore be replaced by a simpler function $g(u,v)$ that only depends on the local face coordinates, 
-without changing the result of the integral. We note that the shape functions are equal to one at their respective points and then linearly decrease to zero at the other points of the faces: 
+In our case, $R(u,v)$ maps the local face coordinates to the global reference coordinates and then the function $f$ is a shape function that maps the global coordinates back to the local face coordinates. The integrand can therefore be replaced by a simpler function $g(u,v)$ that only depends on the local face coordinates, without changing the result of the integral. We note that the shape functions are equal to one at their respective points and then linearly decrease to zero at the other points of the faces:
 
 $$
 \begin{align}
@@ -837,7 +914,13 @@ u_{n+1} &= u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{2} \left[ (1 - 2 \beta) 
 \end{align}
 $$                              
 
-This integration scheme can be made unconditionnaly stable by setting the parameters $\beta = 0.25$ and $\gamma = 0.5$. We thus obtain the following equations:     
+This integration scheme can be made unconditionnaly stable by setting the parameters
+
+$$
+\beta = 0.25, \qquad \gamma = 0.5.
+$$
+
+We thus obtain the following equations:
 $$
 \begin{align}
 u_{n+1} &= u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{4} \left[ \ddot{u}_n +  \ddot{u}_{n+1} \right] \\
@@ -861,11 +944,13 @@ $$
 \left[\mathrm{M} + \frac{\Delta t^2}{4} K_e \right] \ddot{u}_{n+1} = - K_e \left( u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{4} \ddot{u}_n \right)
 $$
 
-The time step will be choosen based on the young modulus of the elastic solid and the resolution of the mesh. The wave speed of the solid ($c$) can be approximated by: 
+The time step will be choosen based on the young modulus of the elastic solid and the resolution of the mesh. The wave speed of the solid can be approximated by:
+
 $$
-c = \sqrt{\frac{E}{\rho}}
+c = \sqrt{\frac{E}{\rho}}.
 $$
-The minimum natural time period of the solid scales with the wave speed and the resolution of the mesh: 
+
+The minimum natural time period of the solid scales with the wave speed and the resolution of the mesh:
 $$
 T_{\mathrm{min}} = \frac{2 h_{\mathrm{min}}}{ c} = \frac{2 h_{\mathrm{min}}}{\sqrt{E  / \rho}}
 $$
@@ -889,16 +974,16 @@ $$
 \Psi(F) = C_1 \left(I_1 - 3 - 2 \log(J)\right) + C_2 \left(J - 1\right)^2 
 $$
 
-Where $I_1$ is the first invariant of the deformation gradient tensor $F$ and $J$ is the determinant of $F$ and $I_1$ is given by:
+Where $I_1$ is the first invariant of the deformation gradient tensor $F$ and $J$ is the determinant of $F$. The first invariant is given by:
 $$
 I_1 = \mathrm{tr}(F^TF)
 $$
 
-The internal forces due to elasticity are given by the gradient of the strain density energy with respect to the displacement field. Instead of calculating and constructing this function: $F_\mathrm{int}(u)$ by hand laboroulsy (which is possible), we can use the jax library to automatically compute the gradient of the strain density energy with respect to the displacement field. Life is too short to derive the gradient of a non-linear function by hand...
+The internal forces due to elasticity are given by the gradient of the strain density energy with respect to the displacement field. Instead of calculating and constructing this function by hand laboriously, we can use the jax library to automatically compute the gradient of the strain density energy with respect to the displacement field. Life is too short to derive the gradient of a non-linear function by hand...
 
 ### Jacobian of the internal forces wrt the displacement field
 
-Another quantity that we will compute automatically with Jax is the Jacobian of the internal forces with respect to the displacement field. This matrix will later be essential to solve the non-linear equations of motion. Unfortunately, we cannot simply call `jax.jacobian` on $F_\mathrm{int}(u)$ because the matrix thereby created would be dense and would not fit in memory. We already know the sparsity pattern of the jacobian since if two nodes are connected with an edge, then when one of the nodes move it affects the forces of the other one and vice versa. We can take advantage of this known sparsity pattern to only compute certain parts of the jacobian matrix with the `jax.jvp` (jacobian vector product) function and thus create a sparse representation of the jacobian matrix.
+Another quantity that we will compute automatically with Jax is the Jacobian of the internal forces with respect to the displacement field. This matrix will later be essential to solve the non-linear equations of motion. Unfortunately, we cannot simply call `jax.jacobian` on the internal force vector because the matrix thereby created would be dense and would not fit in memory. We already know the sparsity pattern of the jacobian since if two nodes are connected with an edge, then when one of the nodes move it affects the forces of the other one and vice versa. We can take advantage of this known sparsity pattern to only compute certain parts of the jacobian matrix with the `jax.jvp` (jacobian vector product) function and thus create a sparse representation of the jacobian matrix.
 
 If we have the following mesh structure: 
 ```
@@ -923,9 +1008,33 @@ $$
 \end{bmatrix}
 $$
 
-Now if we multiply this matrix by the vector: $\left[1, 0, 0 , 1\right]$ we obtain: $\left[\partial F_{A} / \partial u_A, \partial F_{B} / \partial u_A, 0 , \partial F_{D} / \partial u_D\right]$. Then we can do the same for the second and third columns to collect all the non zero entries of the Jacobian matrix. By collecting simultaneously several non-zero entries, we reduce the number of calls to the `jax.jvp` function and thus speed up the computation of the jacobian matrix.
+Now if we multiply this matrix by the vector
 
-We cannot collect simultaneously the entries corresponding to two points if they are only separated by one or two edges. For instance, if we try to obtain the entries for node A and C with the vector $\left[1, 0, 1, 0\right]$, we would obtain the following vector: $\left[\partial F_{A} / \partial u_A, \partial F_{B} / \partial u_A + \partial F_{b} / \partial u_c, \partial F_{C} / \partial u_C , 0 \right]$. It is impossible to separate the contribution of node A and C on the forces of node B.
+$$
+\left[1, 0, 0, 1\right],
+$$
+
+we obtain
+
+$$
+\left[\partial F_{A} / \partial u_A, \partial F_{B} / \partial u_A, 0, \partial F_{D} / \partial u_D\right].
+$$
+
+Then we can do the same for the second and third columns to collect all the non zero entries of the Jacobian matrix. By collecting simultaneously several non-zero entries, we reduce the number of calls to the `jax.jvp` function and thus speed up the computation of the jacobian matrix.
+
+We cannot collect simultaneously the entries corresponding to two points if they are only separated by one or two edges. For instance, if we try to obtain the entries for node A and C with the vector
+
+$$
+\left[1, 0, 1, 0\right],
+$$
+
+we would obtain the following vector:
+
+$$
+\left[\partial F_{A} / \partial u_A, \partial F_{B} / \partial u_A + \partial F_{b} / \partial u_c, \partial F_{C} / \partial u_C, 0\right].
+$$
+
+It is impossible to separate the contribution of node A and C on the forces of node B.
 
 The first step is therefore to group the nodes of the mesh in groups where all points are at least separated by two edges. This problem is sometimes called the distance-2 graph coloring problem. We will use a greedy algorithm to solve this problem. 
 
@@ -961,7 +1070,13 @@ M \hat{v} - M v_n - h \vec{K}(\hat{u}) \\
 \end{bmatrix}
 $$
 
-When this function is equal to zero, then we have found the displacements and velocities at time step $n+1$, i.e. $\hat{u} = u_{n+1}$ and $\hat{v} = v_{n+1}$ if $F(\hat{u}, \hat{v}) = \vec{0}$. We can solve this equation using the Newton-Raphson method. The first step is to 
+When this function is equal to zero, then we have found the displacements and velocities at time step $n+1$, i.e.
+
+$$
+\hat{u} = u_{n+1}, \qquad \hat{v} = v_{n+1}
+$$
+
+if $F(\hat{u}, \hat{v}) = \vec{0}$. We can solve this equation using the Newton-Raphson method. The first step is to
 compute a linear approximation of $F$ around the current guess $(\hat{u}, \hat{v})$:
 $$
 F(\hat{u} + \delta u, \hat{v} + \delta v) \approx F(\hat{u}, \hat{v}) + \mathrm{J}(F) \begin{bmatrix} \delta u \\ \delta v \end{bmatrix}
