@@ -873,6 +873,7 @@ $$
 
 
 If we write: 
+
 $$
 L =  \frac{1}{2} \dot{u}^T \mathrm{M}_0 \dot{u} - \left( \frac{1}{2} u^T K_e u  + \rho_0 u^T B g + u^T S t_0  \right)
 $$
