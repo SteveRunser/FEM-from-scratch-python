@@ -31,7 +31,9 @@ After applying Green's first identity, we get:
 $$
 \int_{\Omega} \nabla u \cdot \nabla v\; d\Omega - \int_{\partial \Omega} \nabla u \cdot n v \; d\partial \Omega = 0
 $$
+
 Because of the vanishing test function on the boundaries, this simplifies to:
+
 $$
 \int_{\Omega} \nabla u \cdot \nabla v \; d\Omega = 0
 $$
@@ -73,6 +75,7 @@ v = \phi_i.
 $$
 
 Substituting and exchanging sum and integral gives
+
 $$
 \sum_j U_j\int_{\Omega} \nabla\phi_j\cdot\nabla\phi_i\,d\Omega = 0.
 $$
@@ -82,19 +85,25 @@ We then define the stiffness matrix entries
 $$
 K_{ij} = \int_{\Omega} \nabla\phi_j\cdot\nabla\phi_i\,d\Omega.
 $$
+
 So the discrete equations are
+
 $$
 \sum_j K_{ij}U_j = 0\qquad\text{for all }i.
 $$
   
 We then enforce Dirichlet boundary values by splitting unknowns into interior and boundary nodes. Writing the system for interior test indices yields
+
 $$
 \sum_{j\in I} K_{ij}U_j = -\sum_{j\in B} K_{ij}g_j,\qquad i\in I,
 $$
+
 which is the reduced linear system
+
 $$
 K_{II}U_I = F_I,\quad F_I = -K_{IB}g_B,
 $$
+
 solved for the interior coefficients $U_I$ and then reconstructed with
 
 $$
@@ -112,14 +121,18 @@ and Jacobian
 $$
 J = \partial x / \partial\xi,
 $$
+
 $$
 K^e_{mn}=\int_T\nabla\phi_m\cdot\nabla\phi_n\,d\Omega
 =\int_{\widehat T} (J^{-T}\nabla_{\xi}\widehat\phi_m)\cdot(J^{-T}\nabla_{\xi}\widehat\phi_n)\,|\det J|\,d\xi.
 $$
+
 For linear P1 triangles the reference gradients are constant so this reduces to
+
 $$
 K^e_{mn}=\tfrac12\,|\det J|\;\big((J^{-T}\nabla_{\xi}\widehat\phi_m)\cdot(J^{-T}\nabla_{\xi}\widehat\phi_n)\big),
 $$
+
 which is the explicit form used in the implementation, with the area factor $1/2$ from the reference triangle times $|\det J|$ and the dot product of transformed gradients. Assembly, boundary enforcement and solution follow as described above.
 
 Below are the computed FEM solution and the analytical solution displayed
@@ -210,6 +223,7 @@ Fem solution and analytical solution for the 3D heat equation with homogeneous N
 Okay now things are getting fun. The first few examples were a nice warm up for what follows. The goal is now to solve for the displacement field of a linear elastic solid under a given load. Instead of employing the Garlekin method of weighted residuals, we will use this time the hamiltonian principle of stationary action: 
 
 The action functional is given by:
+
 $$
 S = \int_{t_0}^{t_f} L(q, \dot{q}) dt
 $$
@@ -314,7 +328,7 @@ where $\vec{1}$ is a vector of ones.
 Assembling everything together, we obtain the following expression for the barycetric position of a point inside an element:
 
 
-$$ 
+$$
 \begin{bmatrix}
 \phi_0(X)\\
 \phi_1(X)\\
@@ -477,7 +491,7 @@ The potential energy of the system in Lagrangian form is given by:
 $$
 V = \sum_{i=1}^{N} \frac{1}{2} \int_{\Omega_{i,0}} \Psi(\mathrm{E}) \; d\Omega_{i,0} - \int_{\Omega_{i,0}} f \cdot u \; d\Omega_{i,0} 
 - \int_{\partial \Omega_{i,0}} t \cdot u \; d\partial \Omega_{i,0}
-$$ 
+$$
 
 $\Psi$ and $E$ are respectively the strain energy density function and the Green-Lagrange strain tensor of the system. $f$ is the body force acting on the system and $t$ is the traction force acting on the system. $u$ is the displacement field of the system.
 $\partial \Omega_{i,0}$ denotes the boundary of the element cell $\Omega_{i,0}$.
@@ -486,7 +500,7 @@ For an isotropic linear elastic material, the strain energy density function in 
 
 $$
 \Psi(\epsilon) = \frac{1}{2} \mathrm{S} : \mathrm{E} 
-$$ 
+$$
 
 Where $\mathrm{S}$ is the second Piola-Kirchhoff stress tensor. And 
 $:$ is the double contraction operation: 
@@ -497,6 +511,7 @@ $$
 
 
 The second Piola-Kirchhoff stress tensor is related to the Cauchy stress tensor ($\sigma$) by:
+
 $$
 S = J \mathrm{F}^{-1} \sigma \mathrm{F}^{-T}
 $$
@@ -504,11 +519,13 @@ $$
 Where $J$ is the determinant of the deformation gradient tensor $\mathrm{F}$.
 
 In tensor form, S is for an isotropic linear elastic material given by:
+
 $$
 S = \lambda \mathrm{tr}(\mathrm{E}) \mathrm{I} + 2 \mu \mathrm{E}
 $$
 
 The 6 independent components of S can also be computed as a matrix vector product:
+
 $$
 \begin{bmatrix}
 S_{11} \\
@@ -540,12 +557,14 @@ E_{33} \\
 $$
 
 Where $\lambda$ and $\mu$ (shear modulus) are the Lamé parameters of the material. $\mathrm{I}$ is the identity tensor and $\mathrm{tr}$ is the trace operator. Note that the first Lame parameters can be obtained from the Young's modulus and the Poisson's ratio of the material: 
+
 $$
 \lambda = \frac{E \nu}{(1+\nu)(1-2\nu)}
-$$. 
+$$
+
 $$
 \mu = \frac{E}{2(1+\nu)} 
-$$.
+$$
 
 The strain density function in this case can therefore simply be written as:
 
@@ -554,6 +573,7 @@ $$
 $$
 
 In the limit of small strain: $\mathrm{E} \approx \frac{1}{2}(\nabla_X u + \nabla_X u^T)$, the element of the strain tensor can directly be obtained from the derivative of the displacement field:
+
 $$
 \begin{align}
 E_{11} &= \frac{\partial u_1}{\partial X_1} \\
@@ -566,6 +586,7 @@ E_{13} &= \frac{1}{2} \left( \frac{\partial u_1}{\partial X_3} + \frac{\partial 
 $$
 
 This can be written in matrix form as:
+
 $$
 \begin{bmatrix}
 E_{11} \\
@@ -628,6 +649,7 @@ E_{33} \\
 $$
 
 To create the $\Gamma$ matrix, it is pretty convenient to start by forming the following matrix:
+
 $$
 \begin{bmatrix}
 \partial_{X_1} \phi_0& \partial_{X_2} \phi_0& \partial_{X_3} \phi_0 \\
@@ -660,6 +682,7 @@ $$
 
 Since the barycentric coordinate functions are linear with respect to the position in the reference configuration, their derivative are constant. Meaning that the Green-Lagrange tensor
 and strain density energy are also constant in the elements. The integral of the strain density energy inside an element is therefore given by:
+
 $$
 \int_{\Omega_{i,0}} \Psi(\mathrm{E}) \; d\Omega_{i,0} = \text{Vol}(\Omega_{i,0}) \cdot \Psi(\mathrm{E}) = \text{Vol}(\Omega_{i,0}) \cdot \frac{1}{2} \vec{\mathrm{E}}^T \mathrm{C} \vec{\mathrm{E}} = 
 \text{Vol}(\Omega_{i,0}) \cdot \frac{1}{2} u(t)^T \underbrace{\Gamma^T \mathrm{C} \Gamma}_{=K_0 \; (12 \times 12) } u(t)
@@ -672,11 +695,13 @@ $K_0$ is the local stiffness matrix of the system. The global stiffness matrix c
 
 
 The body forces applied to an element of the mesh (gravity, etc.) will be given with respect to the deformed configuration:
+
 $$
 \int_{\Omega_{i}} \rho g^T \cdot u(x,t) \; d\Omega_{i}
 $$
 
 Where $\rho$ is the density of the material and $g$ is the acceleration due to gravity. Even though the gravity is constant throughout the element, the density between the deformed and reference configuration might not be the same. Because of the conservation of mass, we have that:
+
 $$
 \int_{\Omega_{i}} \rho g^T \cdot u(x,t) \; d\Omega_{i} = \int_{\Omega_{i,0}} \rho_0 g^T \cdot u(X,t) \; d\Omega_{i,0} 
 $$
@@ -688,6 +713,7 @@ u(X,t) = N(X)\,u(t),
 $$
 
 we can write the above equation as:
+
 $$
 \int_{\Omega_{i,0}} \rho_0 g^T \cdot u(X,t) \; d\Omega_{i,0} = \rho_0 \underbrace{g^T}_{(1 \times 12)} \int_{\Omega_{i,0}} 
 \underbrace{
@@ -720,11 +746,13 @@ Since all the calculation are run wrt the reference configuration, the inetgral 
 
 
 The traction forces are given at the level of the faces of the mesh in the deformed configuration. Since, we are solving for the displacement with respect to the reference configuration, we need to transform the traction forces to the reference configuration. We first need to rotate the traction forces with respect to the axis orthogonal to the face normals in the deformed and reference configuration. The rotation matrix is given by the Rodrigues formula:
+
 $$
 R = \mathrm{I} + \sin(\theta) \cdot \mathrm{K} + (1 - \cos(\theta)) \cdot \mathrm{K}^2
 $$
 
 With: 
+
 $$
 K = 
 \begin{bmatrix}
@@ -732,7 +760,7 @@ K =
 k_z & 0 & -k_x \\
 -k_y & k_x & 0 \\
 \end{bmatrix}
-$$ 
+$$
 
 The rotation axis and angle are
 
@@ -743,11 +771,13 @@ eta = \arccos(n \cdot N),
 $$
 
 where $n$ is the unit normal in the deformed configuration and $N$ is the unit normal in the reference configuration. The traction forces then need to be rescaled based on the difference in area between the deformed and reference configuration. The traction forces in the reference configuration are then given by:
+
 $$
 t_0 = \frac{a}{A} R t
 $$
 
 Since the normals and traction vectors are constant accross the surface triangles, the integral can be rewritten as: 
+
 $$
  \int_{\partial \Omega_{i,0}} t_0^T  u(X,t) \; d\partial \Omega_{i,0} =  \underbrace{t_0^T}_{(1 \times 9)} 
 
@@ -780,6 +810,7 @@ Here is how to integrate the shape functions over the surfaces of the triangles.
 $$
 P_1 = (x_1, y_1, z_1), \quad P_2 = (x_2, y_2, z_2), \quad P_3 = (x_3, y_3, z_3).
 $$
+
 ​
 A convenient way to parametrize the surface is using barycentric coordinates:
 
@@ -794,6 +825,7 @@ $$
 $$
 
 If we want to integrate a function $f(x,y,z)$ over the surface, we can substitute $x$, $y$, and $z$ using the parametric form:
+
 $$
 \begin{align}
 x &= x1 + u(x2 - x1) + v(x3 - x1) \\
@@ -811,9 +843,11 @@ $$
 \quad\text{and}\quad
 \frac{\partial R}{\partial v}.
 $$
+
 $$
 dA = \left\| \frac{\partial R}{\partial u} \times \frac{\partial R}{\partial v} \right\| \; du dv
 $$
+
 Where
 
 $$
@@ -823,14 +857,19 @@ $$
 $$
 
 The cross product of these two vectors gives the normal vector to the surface:
+
 $$
 N = \frac{\partial R}{\partial u} \times \frac{\partial R}{\partial v} = (P2 - P1) \times (P3 - P1)
 $$
+
 The differential area element is therefore given by:
+
 $$
 dA = \left\| N \right\| du dv
 $$
+
 The integral of the function over the surface is then given by:
+
 $$
 \int_{\partial \Omega_0} f(x,y,z) \; dA = \left\| N \right\| \int_{0}^{1} \int_{0}^{1-u} f(R(u,v))  \; du dv
 $$
@@ -847,16 +886,19 @@ g(u = 0, v = 1) &= 0 \\
 $$
 
 We therefore have that: 
+
 $$
 g(u,v) = 1 - u - v
 $$
 
 The integral to compute becomes:
+
 $$
 \int_{\partial \Omega_0} f(x,y,z) \; dA = \left\| N \right\|  \int_{0}^{1} \int_{0}^{1-u} 1 - u - v \; du dv = \frac{1}{6} \left\| N \right\|
 $$
 
 Which is equal to : 
+
 $$
 \int_{\partial \Omega_0} \phi_i(x,y,z) \; dA = \frac{1}{3} \mathrm{Area}(\partial \Omega_0)
 $$
@@ -879,16 +921,19 @@ L =  \frac{1}{2} \dot{u}^T \mathrm{M}_0 \dot{u} - \left( \frac{1}{2} u^T K_e u  
 $$
 
 Applying the Euler-Lagrange formula, we obtain the following equation of motion:
+
 $$
 \mathrm{M}_0 \ddot{u} + K_e u = \rho_0 B g + S t_0
 $$
 
 In the static case, the acceleration is zero and the equation of motion simplifies to:
+
 $$
 K_e u = \rho_0 B g + S t_0
 $$
 
 We will also assume that the traction forces are zero and the solid is not subject to any body forces. The equation of motion then simplifies to:
+
 $$
 K_e u = 0
 $$
@@ -913,7 +958,7 @@ u_{n+1} &= u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{2} \left[ (1 - 2 \beta) 
 \dot{u}_{n+1} &= \dot{u}_n + \Delta t \left[ (1 - \gamma) \ddot{u}_n + \gamma \ddot{u}_{n+1} \right] \\
 
 \end{align}
-$$                              
+$$
 
 This integration scheme can be made unconditionnaly stable by setting the parameters
 
@@ -922,6 +967,7 @@ $$
 $$
 
 We thus obtain the following equations:
+
 $$
 \begin{align}
 u_{n+1} &= u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{4} \left[ \ddot{u}_n +  \ddot{u}_{n+1} \right] \\
@@ -929,7 +975,7 @@ u_{n+1} &= u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{4} \left[ \ddot{u}_n +  
 \dot{u}_{n+1} &= \dot{u}_n + \frac{\Delta t}{2} \left[ \ddot{u}_n + \ddot{u}_{n+1} \right] \\
 
 \end{align}
-$$      
+$$
 
 The equation of motion to solve is (the system is undamped): 
 
@@ -938,9 +984,11 @@ $$
 $$
 
 If we substitute $u_{n+1}$ in the above equation, we obtain the following equation to solve:
+
 $$
 \mathrm{M} \ddot{u}_{n+1} + K_e \left( u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{4} \left[ \ddot{u}_n +  \ddot{u}_{n+1} \right] \right) = 0 
 $$
+
 $$
 \left[\mathrm{M} + \frac{\Delta t^2}{4} K_e \right] \ddot{u}_{n+1} = - K_e \left( u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{4} \ddot{u}_n \right)
 $$
@@ -952,13 +1000,17 @@ c = \sqrt{\frac{E}{\rho}}.
 $$
 
 The minimum natural time period of the solid scales with the wave speed and the resolution of the mesh:
+
 $$
 T_{\mathrm{min}} = \frac{2 h_{\mathrm{min}}}{ c} = \frac{2 h_{\mathrm{min}}}{\sqrt{E  / \rho}}
 $$
+
 Where $h_{\mathrm{min}}$ is the minimum edge length of the mesh. The time step is then choosen as a fraction of the minimum natural time period:
+
 $$
 \Delta t = \alpha \frac{2 h_{\mathrm{min}}}{\sqrt{ E / \rho}}
 $$
+
 Where $\alpha$ is a constant that can be choosen to be 0.1.
 
 ## Hamiltonian approach for non-linear elastic solids
@@ -966,16 +1018,19 @@ Where $\alpha$ is a constant that can be choosen to be 0.1.
 Linear elasticity is fun, but we can all agree I believe that it is not as exciting as non-linear elasticity. In this section, we will derive the equations of motion for a non-linear elastic solid using again the Hamiltonian approach. 
 
 The first steps are the same until the application of the Euler-Lagrange equations. Which gives us the following equation of motion:
+
 $$
 \mathrm{M}_0 \ddot{u} + K_e(u) u = \rho_0 B g + S t_0
 $$
 
 The main difficulty now is in calculating the potential energy of the function given that the strain energy density function is non-linear. In this example we will use the strain density energy of a compressible Neo-Hookean material, which is given by:
+
 $$
 \Psi(F) = C_1 \left(I_1 - 3 - 2 \log(J)\right) + C_2 \left(J - 1\right)^2 
 $$
 
 Where $I_1$ is the first invariant of the deformation gradient tensor $F$ and $J$ is the determinant of $F$. The first invariant is given by:
+
 $$
 I_1 = \mathrm{tr}(F^TF)
 $$
@@ -991,6 +1046,7 @@ If we have the following mesh structure:
 A -- B -- C  D
 ```
 where A and B, B and C are connected by an edge and D is not connected to any other node. The jacobian of the forces wrt the node displacements would look like this:
+
 $$
 \begin{bmatrix}
 \partial F_{A} / \partial u_A & \partial F_{A} / \partial u_B & \partial F_{A} / \partial u_C & \partial F_{A} / \partial u_D \\
@@ -999,7 +1055,9 @@ $$
 \partial F_{D} / \partial u_A & \partial F_{D} / \partial u_B & \partial F_{D} / \partial u_C & \partial F_{D} / \partial u_D \\
 \end{bmatrix}
 $$
+
 Each entry is a 3 by 3 block because of the 3 dimensions of the displacement field. If we remove the zero entries of the matrix, we get:
+
 $$
 \begin{bmatrix}
 \partial F_{A} / \partial u_A & \partial F_{A} / \partial u_B & 0                             & 0                             \\
@@ -1043,10 +1101,13 @@ The first step is therefore to group the nodes of the mesh in groups where all p
 ## Time integration 
 
 To keep things simple, we will use the implicit backward Euler method. The equations of motion are given by:
+
 $$
 M \ddot{u} - \vec{K}(u) = 0
 $$
+
 Which can be rewritten as a first order system:
+
 $$
 \begin{aligned}
 \dot{u} &= v \\
@@ -1055,6 +1116,7 @@ M \dot{v} &= \vec{K}(u)
 $$
 
 To integrate from time step $n$ to time step $n+1$, the implicit method requires to solve the following equation:
+
 $$
 \begin{aligned}
 u_{n+1} &= u_n + h v_{n+1} \\
@@ -1063,6 +1125,7 @@ M v_{n+1} &= M v_n + h \vec{K}(u_{n+1}) \\
 $$
 
 We can write this equations into a function $F(\hat{u}, \hat{v})$:
+
 $$
 F(\hat{u}, \hat{v}) =
 \begin{bmatrix}
@@ -1079,17 +1142,21 @@ $$
 
 if $F(\hat{u}, \hat{v}) = \vec{0}$. We can solve this equation using the Newton-Raphson method. The first step is to
 compute a linear approximation of $F$ around the current guess $(\hat{u}, \hat{v})$:
+
 $$
 F(\hat{u} + \delta u, \hat{v} + \delta v) \approx F(\hat{u}, \hat{v}) + \mathrm{J}(F) \begin{bmatrix} \delta u \\ \delta v \end{bmatrix}
 $$
 
 We replace the right hand side of the equation by zero to find the root of our function $F(\hat{u}, \hat{v})$:
+
 $$
 \mathrm{J}(F) \begin{bmatrix} \delta u \\ \delta v \end{bmatrix}= - F(\hat{u}, \hat{v})
 $$
+
 The Newton-Raphson algorithm simply boils down to repeating iteratively the above equation until we reach a certain tolerance.
 
 The jacobian of the function $F$ has the following form:
+
 $$
 \mathrm{J}(F) =
 \begin{bmatrix}
@@ -1099,6 +1166,7 @@ $$
 $$
 
 Which gives the following block matrix:
+
 $$
 \mathrm{J}(F) =
 \begin{bmatrix}
@@ -1108,6 +1176,7 @@ $$
 $$
 
 We can take advantage of the block structure of $\mathrm{J}(F)$ to solve the linear system for $\delta u$ and $\delta v$ in a more efficient way. For this we will use the Schur complement method: 
+
 $$
 \begin{aligned}
 J_{11} \delta u + J_{12} \delta v &= -F_u \\
@@ -1116,6 +1185,7 @@ J_{21} \delta u + J_{22} \delta v &= -F_v \\
 $$
 
 We can substitute $\delta u$ from the first equation into the second equation to obtain:
+
 $$
 \begin{aligned}
 \delta u &= -J_{11}^{-1} \left( F_u + J_{12} \delta v \right) \\ 
@@ -1124,6 +1194,7 @@ J_{21} \left[-J_{11}^{-1} \left( F_u + J_{12} \delta v \right)\right] + J_{22} \
 $$
 
 Replacing with the content of the Jacobian matrix gives: 
+
 $$
 \begin{aligned}
 \delta u &= h \delta v -F_u  \\ 
@@ -1132,6 +1203,7 @@ $$
 $$
 
 We can isolate $\delta v$:
+
 $$
 \begin{aligned}
 \delta u &= h \delta v -F_u  \\ 
