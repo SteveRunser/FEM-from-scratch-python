@@ -779,8 +779,7 @@ $$
 Since the normals and traction vectors are constant accross the surface triangles, the integral can be rewritten as: 
 
 $$
- \int_{\partial \Omega_{i,0}} t_0^T  u(X,t) \; d\partial \Omega_{i,0} =  \underbrace{t_0^T}_{(1 \times 9)} 
-
+\int_{\partial \Omega_{i,0}} t_0^T  u(X,t) \; d\partial \Omega_{i,0} =  \underbrace{t_0^T}_{(1 \times 9)} 
 \int_{\partial \Omega_{i,0}}
 \underbrace{
 \begin{bmatrix}
@@ -788,9 +787,7 @@ $$
 & \mathrm{I}\phi_1(X) &\\
 & & \mathrm{I}\phi_2(X)\\
 \end{bmatrix}}_{=S_\mathrm{local}(X) \; (9 \times 9)} \; d\partial \Omega_{i,0} 
-
 \;
-
 \underbrace{
 \begin{bmatrix}
 \mid \\
