@@ -267,11 +267,10 @@ We can rewrite the above equation into a matrix vector form:
 $$
 X = 
 \begin{bmatrix}
- \mid& \mid&  \mid& \mid  \\
- X_0&  X_1&  X_2&  X_3 \\
- \mid&  \mid&  \mid& \mid \\
+\mid& \mid&  \mid& \mid  \\
+X_0&  X_1&  X_2&  X_3 \\
+\mid&  \mid&  \mid& \mid \\
 \end{bmatrix}  
-
 \begin{bmatrix}
 \phi_0(X)\\
 \phi_1(X)\\
@@ -286,11 +285,10 @@ $$
 X - X_0 = 
 \underbrace{
 \begin{bmatrix}
- \mid& \mid&  \mid \\
-  X_1 - X_0&  X_2- X_0&  X_3- X_0 \\
- \mid&  \mid&  \mid&\\
+\mid& \mid&  \mid \\
+X_1 - X_0&  X_2- X_0&  X_3- X_0 \\
+\mid&  \mid&  \mid&\\
 \end{bmatrix}}_{=\;T}
-
 \begin{bmatrix}
 \phi_1(X)\\
 \phi_2(X)\\
@@ -313,7 +311,6 @@ $$
 \phi_2(X)\\
 \phi_3(X)\\
 \end{bmatrix} = 
-
 T^{-1} (X - X_0)
 $$
 
@@ -335,8 +332,6 @@ $$
 \phi_2(X)\\
 \phi_3(X)\\
 \end{bmatrix} =  
-
-
 \begin{bmatrix}
 1\\
 0\\
@@ -352,12 +347,8 @@ $$
 & & &T^{-1}& & & \\
 & & & & & & \\
 \end{bmatrix}}_{=D \;(4 \times 3)}
-
-
 \underbrace{
 (X - X_0)}_{(3 \times 1)}
-
-
 $$
 
 The position in the deformed geometry is given by:
@@ -365,11 +356,10 @@ The position in the deformed geometry is given by:
 $$
 x(X) = \underbrace{
 \begin{bmatrix}
- \mid& \mid&  \mid& \mid  \\
- x_0&  x_1&  x_2&  x_3 \\
- \mid&  \mid&  \mid& \mid \\
+\mid& \mid&  \mid& \mid  \\
+x_0&  x_1&  x_2&  x_3 \\
+\mid&  \mid&  \mid& \mid \\
 \end{bmatrix}}_{(3 \times 4)} \cdot
-
 \begin{bmatrix}
 \phi_0(X)\\
 \phi_1(X)\\
@@ -380,14 +370,12 @@ $$
 
 $$
 x(X) = \vec{x_0} +
-
 \underbrace{
 \begin{bmatrix}
- \mid& \mid&  \mid& \mid  \\
- x_0&  x_1&  x_2&  x_3 \\
- \mid&  \mid&  \mid& \mid \\
+\mid& \mid&  \mid& \mid  \\
+x_0&  x_1&  x_2&  x_3 \\
+\mid&  \mid&  \mid& \mid \\
 \end{bmatrix}}_{(3 \times 4)} 
-
 \underbrace{
 \begin{bmatrix}
 & & & -\vec{1}^{T} \; T^{-1} & & & \\
@@ -396,7 +384,6 @@ x(X) = \vec{x_0} +
 & & &T^{-1}& & & \\
 & & & & & & \\
 \end{bmatrix}}_{=D \; (4 \times 3)}
-
 \underbrace{
 (X - X_0)}_{(3 \times 1)}
 $$
@@ -410,7 +397,6 @@ F = \underbrace{\frac{\partial}{\partial X} x(X,t)}_{(3 \times 3)} = \underbrace
  x_0&  x_1&  x_2&  x_3 \\
  \mid&  \mid&  \mid& \mid \\
 \end{bmatrix}}_{(3 \times 4)} 
-
 \underbrace{
 \begin{bmatrix}
 & & & -\vec{1}^{T} \; T^{-1} & & & \\
@@ -435,23 +421,19 @@ Where the sum runs over all the element cells of the mesh (tetrahedra in this ca
 For each element, we can write the displacement of a given point as: 
 
 $$
-
 u(X,t) = 
-
 \underbrace{
 \begin{bmatrix}
- & & & \\
+& & & \\
 \mathrm{I}\phi_0(X) & \mathrm{I}\phi_1(X) & \mathrm{I}\phi_2(X) & \mathrm{I}\phi_3(X)\\
- & & & \\
+& & & \\
 \end{bmatrix}}_{= N(X) \; (3 \times 12)}
-
-
 \underbrace{
 \begin{bmatrix}
 \mid \\
 u_0(t) \\
 \mid \\
- \\
+\\
 \mid\\
 u_1(t) \\
 \mid \\
@@ -479,18 +461,17 @@ $$
 \end{bmatrix} d\Omega_{i,0}
 $$
 
-This local mass matrix can be computed like done in the previous notebooks by numerically integrating the shape functions in a reference element and 
-then transforming the region of integration. The global matrix can also be assembled in a similar way as done in the previous notebooks.
-
-
+This local mass matrix can be computed like done in the previous notebooks by numerically integrating the shape functions in a reference element and then transforming the region of integration. The global matrix can also be assembled in a similar way as done in the previous notebooks.
 
 ### Potential energy: Strain Density Energy
 
 The potential energy of the system in Lagrangian form is given by:
 
 $$
-V = \sum_{i=1}^{N} \frac{1}{2} \int_{\Omega_{i,0}} \Psi(\mathrm{E}) \; d\Omega_{i,0} - \int_{\Omega_{i,0}} f \cdot u \; d\Omega_{i,0} 
-- \int_{\partial \Omega_{i,0}} t \cdot u \; d\partial \Omega_{i,0}
+V = \sum_{i=1}^{N} \frac{1}{2} 
+\int_{\Omega_{i,0}} \Psi(\mathrm{E}) \, d\Omega_{i,0} -
+\int_{\Omega_{i,0}} f \cdot u \, d\Omega_{i,0} -
+\int_{\partial\Omega_{i,0}} t \cdot u \, d\partial\Omega_{i,0}
 $$
 
 $\Psi$ and $E$ are respectively the strain energy density function and the Green-Lagrange strain tensor of the system. $f$ is the body force acting on the system and $t$ is the traction force acting on the system. $u$ is the displacement field of the system.
@@ -535,7 +516,6 @@ S_{12} \\
 S_{23} \\
 S_{13} \\
 \end{bmatrix} =
-
 \underbrace{
 \begin{bmatrix}
 \lambda + 2 \mu & \lambda & \lambda & 0 & 0 & 0 \\
@@ -545,7 +525,6 @@ S_{13} \\
 0 & 0 & 0 & 0 & \mu & 0 \\
 0 & 0 & 0 & 0 & 0 & \mu \\
 \end{bmatrix}}_{= \mathrm{C} \; (6 \times 6)}
-
 \begin{bmatrix}
 E_{11} \\
 E_{22} \\
@@ -596,7 +575,6 @@ E_{33} \\
 2 E_{23} \\
 2 E_{13} \\
 \end{bmatrix} =
-
 \underbrace{
 \begin{bmatrix}
 \frac{\partial}{\partial X_1} & 0 & 0 \\
@@ -624,7 +602,6 @@ u_1(t) \\
 \mid \\
 ... \\
 \end{bmatrix}}_{=u(t) \; (12 \times 1)}
-
 $$
 
 $$
@@ -636,7 +613,6 @@ E_{33} \\
 2 E_{23} \\
 2 E_{13} \\
 \end{bmatrix} = B \; N(X) \; u(t) = 
-
 \underbrace{
 \begin{bmatrix}
 \partial_{X_1} \phi_0& 0& 0& \partial_{X_1} \phi_1& 0& 0& \partial_{X_1} \phi_2& 0& 0& \partial_{X_1} \phi_3& 0& 0 \\
@@ -657,7 +633,6 @@ $$
 \partial_{X_1} \phi_2& \partial_{X_2} \phi_2& \partial_{X_3} \phi_2 \\
 \partial_{X_1} \phi_3& \partial_{X_2} \phi_3& \partial_{X_3} \phi_3 \\
 \end{bmatrix} = 
-
 \begin{bmatrix}
 \phi_0(X_1, X_2, X_3) \\
 \phi_1(X_1, X_2, X_3) \\
@@ -668,7 +643,6 @@ $$
 \begin{bmatrix}
 \partial_{X_1} & \partial_{X_2} & \partial_{X_3} \\
 \end{bmatrix} =
-
 \underbrace{
 \begin{bmatrix}
 & & & -\vec{1}^{T} \; T^{-1} & & & \\
@@ -677,7 +651,6 @@ $$
 & & &T^{-1}& & & \\
 & & & & & & \\
 \end{bmatrix}}_{=D \;(4 \times 3)}
-
 $$
 
 Since the barycentric coordinate functions are linear with respect to the position in the reference configuration, their derivative are constant. Meaning that the Green-Lagrange tensor
@@ -723,13 +696,12 @@ $$
 & & \mathrm{I}\phi_2(X) & \\
 & & & \mathrm{I}\phi_3(X) \\
 \end{bmatrix}}_{=B_\mathrm{local}(X) \; (12 \times 12)} \; u(t) \; d\Omega_{i,0}
-
 \; \underbrace{
 \begin{bmatrix}
 \mid \\
 u_0(t) \\
 \mid \\
- \\
+\\
 \mid\\
 u_1(t) \\
 \mid \\
@@ -742,8 +714,6 @@ Since all the calculation are run wrt the reference configuration, the inetgral 
 
 
 ### Potential energy: Traction Forces
-
-
 
 The traction forces are given at the level of the faces of the mesh in the deformed configuration. Since, we are solving for the displacement with respect to the reference configuration, we need to transform the traction forces to the reference configuration. We first need to rotate the traction forces with respect to the axis orthogonal to the face normals in the deformed and reference configuration. The rotation matrix is given by the Rodrigues formula:
 
