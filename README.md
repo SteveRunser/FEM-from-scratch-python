@@ -919,11 +919,8 @@ We will use the Newmark-beta method to integrate the equations of motions of the
 
 $$
 \begin{align}
-
 u_{n+1} &= u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{2} \left[ (1 - 2 \beta) \ddot{u}_n + 2 \beta \ddot{u}_{n+1} \right] \\
-
 \dot{u}_{n+1} &= \dot{u}_n + \Delta t \left[ (1 - \gamma) \ddot{u}_n + \gamma \ddot{u}_{n+1} \right] \\
-
 \end{align}
 $$
 
@@ -938,9 +935,7 @@ We thus obtain the following equations:
 $$
 \begin{align}
 u_{n+1} &= u_n + \Delta t \dot{u}_n + \frac{\Delta t^2}{4} \left[ \ddot{u}_n +  \ddot{u}_{n+1} \right] \\
-
 \dot{u}_{n+1} &= \dot{u}_n + \frac{\Delta t}{2} \left[ \ddot{u}_n + \ddot{u}_{n+1} \right] \\
-
 \end{align}
 $$
 
